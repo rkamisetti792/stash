@@ -1,0 +1,20 @@
+
+---
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
+metadata:
+  creationTimestamp: null
+  name: snapshots.repositories.stash.appscode.com
+spec:
+  group: repositories.stash.appscode.com
+  names:
+    kind: Snapshot
+    plural: snapshots
+  scope: ""
+  versions:
+  - name: repositories
+    served: true
+    storage: false
+  - name: v1alpha1
+    served: true
+    storage: false
