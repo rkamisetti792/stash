@@ -299,6 +299,9 @@ func GetOpenAPIDefinitions(ref common.ReferenceCallback) map[string]common.OpenA
 		"kmodules.xyz/offshoot-api/api/v1.ServicePort":                        schema_kmodulesxyz_offshoot_api_api_v1_ServicePort(ref),
 		"kmodules.xyz/offshoot-api/api/v1.ServiceSpec":                        schema_kmodulesxyz_offshoot_api_api_v1_ServiceSpec(ref),
 		"kmodules.xyz/offshoot-api/api/v1.ServiceTemplateSpec":                schema_kmodulesxyz_offshoot_api_api_v1_ServiceTemplateSpec(ref),
+		"stash.appscode.dev/stash/apis/stash/v1beta1.BackupBatch":             schema_stash_apis_stash_v1beta1_BackupBatch(ref),
+		"stash.appscode.dev/stash/apis/stash/v1beta1.BackupBatchList":         schema_stash_apis_stash_v1beta1_BackupBatchList(ref),
+		"stash.appscode.dev/stash/apis/stash/v1beta1.BackupBatchSpec":         schema_stash_apis_stash_v1beta1_BackupBatchSpec(ref),
 		"stash.appscode.dev/stash/apis/stash/v1beta1.BackupBlueprint":         schema_stash_apis_stash_v1beta1_BackupBlueprint(ref),
 		"stash.appscode.dev/stash/apis/stash/v1beta1.BackupBlueprintList":     schema_stash_apis_stash_v1beta1_BackupBlueprintList(ref),
 		"stash.appscode.dev/stash/apis/stash/v1beta1.BackupBlueprintSpec":     schema_stash_apis_stash_v1beta1_BackupBlueprintSpec(ref),
@@ -13440,6 +13443,135 @@ func schema_kmodulesxyz_offshoot_api_api_v1_ServiceTemplateSpec(ref common.Refer
 		},
 		Dependencies: []string{
 			"kmodules.xyz/offshoot-api/api/v1.ObjectMeta", "kmodules.xyz/offshoot-api/api/v1.ServiceSpec"},
+	}
+}
+
+func schema_stash_apis_stash_v1beta1_BackupBatch(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Type: []string{"object"},
+				Properties: map[string]spec.Schema{
+					"kind": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"apiVersion": {
+						SchemaProps: spec.SchemaProps{
+							Description: "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#resources",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"metadata": {
+						SchemaProps: spec.SchemaProps{
+							Ref: ref("k8s.io/apimachinery/pkg/apis/meta/v1.ObjectMeta"),
+						},
+					},
+					"spec": {
+						SchemaProps: spec.SchemaProps{
+							Ref: ref("stash.appscode.dev/stash/apis/stash/v1beta1.BackupBatchSpec"),
+						},
+					},
+				},
+			},
+		},
+		Dependencies: []string{
+			"k8s.io/apimachinery/pkg/apis/meta/v1.ObjectMeta", "stash.appscode.dev/stash/apis/stash/v1beta1.BackupBatchSpec"},
+	}
+}
+
+func schema_stash_apis_stash_v1beta1_BackupBatchList(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Type: []string{"object"},
+				Properties: map[string]spec.Schema{
+					"kind": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"apiVersion": {
+						SchemaProps: spec.SchemaProps{
+							Description: "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#resources",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"metadata": {
+						SchemaProps: spec.SchemaProps{
+							Ref: ref("k8s.io/apimachinery/pkg/apis/meta/v1.ListMeta"),
+						},
+					},
+					"items": {
+						SchemaProps: spec.SchemaProps{
+							Type: []string{"array"},
+							Items: &spec.SchemaOrArray{
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Ref: ref("stash.appscode.dev/stash/apis/stash/v1beta1.BackupBatch"),
+									},
+								},
+							},
+						},
+					},
+				},
+			},
+		},
+		Dependencies: []string{
+			"k8s.io/apimachinery/pkg/apis/meta/v1.ListMeta", "stash.appscode.dev/stash/apis/stash/v1beta1.BackupBatch"},
+	}
+}
+
+func schema_stash_apis_stash_v1beta1_BackupBatchSpec(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Type: []string{"object"},
+				Properties: map[string]spec.Schema{
+					"schedule": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"string"},
+							Format: "",
+						},
+					},
+					"members": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Members specify the backup configurations that are part of this batch",
+							Type:        []string{"array"},
+							Items: &spec.SchemaOrArray{
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Ref: ref("stash.appscode.dev/stash/apis/stash/v1beta1.BackupConfiguration"),
+									},
+								},
+							},
+						},
+					},
+					"paused": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Indicates that the BackupBatch is paused from taking backup. Default value is 'false'",
+							Type:        []string{"boolean"},
+							Format:      "",
+						},
+					},
+					"hooks": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Actions that Stash should take in response to backup sessions. Cannot be updated.",
+							Ref:         ref("stash.appscode.dev/stash/apis/stash/v1beta1.Hooks"),
+						},
+					},
+				},
+			},
+		},
+		Dependencies: []string{
+			"stash.appscode.dev/stash/apis/stash/v1beta1.BackupConfiguration", "stash.appscode.dev/stash/apis/stash/v1beta1.Hooks"},
 	}
 }
 
