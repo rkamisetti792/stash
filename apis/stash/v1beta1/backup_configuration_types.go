@@ -52,6 +52,24 @@ type BackupConfigurationSpec struct {
 	// An `EmptyDir` will always be mounted at /tmp with this settings
 	//+optional
 	TempDir EmptyDirSettings `json:"tempDir,omitempty"`
+
+	// Actions that Stash should take in response to backup sessions.
+	// Cannot be updated.
+	// +optional
+	Hooks *Hooks `json:"hooks,omitempty"`
+}
+
+// Hooks describes actions that Stash should take in response to backup sessions. For the PostBackup
+// and PreBackup handlers, backup process blocks until the action is complete,
+// unless the container process fails, in which case the handler is aborted.
+type Hooks struct {
+	// PreBackup is called immediately before a backup session is initiated.
+	// +optional
+	PreBackup *core.Handler `json:"preBackup,omitempty"`
+
+	// PostBackup is called immediately after a backup session is complete.
+	// +optional
+	PostBackup *core.Handler `json:"postBackup,omitempty"`
 }
 
 type EmptyDirSettings struct {

@@ -316,6 +316,7 @@ func GetOpenAPIDefinitions(ref common.ReferenceCallback) map[string]common.OpenA
 		"stash.appscode.dev/stash/apis/stash/v1beta1.FunctionList":            schema_stash_apis_stash_v1beta1_FunctionList(ref),
 		"stash.appscode.dev/stash/apis/stash/v1beta1.FunctionRef":             schema_stash_apis_stash_v1beta1_FunctionRef(ref),
 		"stash.appscode.dev/stash/apis/stash/v1beta1.FunctionSpec":            schema_stash_apis_stash_v1beta1_FunctionSpec(ref),
+		"stash.appscode.dev/stash/apis/stash/v1beta1.Hooks":                   schema_stash_apis_stash_v1beta1_Hooks(ref),
 		"stash.appscode.dev/stash/apis/stash/v1beta1.HostBackupStats":         schema_stash_apis_stash_v1beta1_HostBackupStats(ref),
 		"stash.appscode.dev/stash/apis/stash/v1beta1.HostRestoreStats":        schema_stash_apis_stash_v1beta1_HostRestoreStats(ref),
 		"stash.appscode.dev/stash/apis/stash/v1beta1.Param":                   schema_stash_apis_stash_v1beta1_Param(ref),
@@ -13727,11 +13728,17 @@ func schema_stash_apis_stash_v1beta1_BackupConfigurationSpec(ref common.Referenc
 							Ref:         ref("stash.appscode.dev/stash/apis/stash/v1beta1.EmptyDirSettings"),
 						},
 					},
+					"hooks": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Actions that Stash should take in response to backup sessions. Cannot be updated.",
+							Ref:         ref("stash.appscode.dev/stash/apis/stash/v1beta1.Hooks"),
+						},
+					},
 				},
 			},
 		},
 		Dependencies: []string{
-			"k8s.io/api/core/v1.LocalObjectReference", "kmodules.xyz/offshoot-api/api/v1.RuntimeSettings", "stash.appscode.dev/stash/apis/stash/v1alpha1.RetentionPolicy", "stash.appscode.dev/stash/apis/stash/v1beta1.BackupTarget", "stash.appscode.dev/stash/apis/stash/v1beta1.EmptyDirSettings", "stash.appscode.dev/stash/apis/stash/v1beta1.TaskRef"},
+			"k8s.io/api/core/v1.LocalObjectReference", "kmodules.xyz/offshoot-api/api/v1.RuntimeSettings", "stash.appscode.dev/stash/apis/stash/v1alpha1.RetentionPolicy", "stash.appscode.dev/stash/apis/stash/v1beta1.BackupTarget", "stash.appscode.dev/stash/apis/stash/v1beta1.EmptyDirSettings", "stash.appscode.dev/stash/apis/stash/v1beta1.Hooks", "stash.appscode.dev/stash/apis/stash/v1beta1.TaskRef"},
 	}
 }
 
@@ -14270,6 +14277,33 @@ func schema_stash_apis_stash_v1beta1_FunctionSpec(ref common.ReferenceCallback) 
 		},
 		Dependencies: []string{
 			"k8s.io/api/core/v1.ContainerPort", "k8s.io/api/core/v1.VolumeDevice", "k8s.io/api/core/v1.VolumeMount", "kmodules.xyz/offshoot-api/api/v1.ContainerRuntimeSettings"},
+	}
+}
+
+func schema_stash_apis_stash_v1beta1_Hooks(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Description: "Hooks describes actions that Stash should take in response to backup sessions. For the PostBackup and PreBackup handlers, backup process blocks until the action is complete, unless the container process fails, in which case the handler is aborted.",
+				Type:        []string{"object"},
+				Properties: map[string]spec.Schema{
+					"preBackup": {
+						SchemaProps: spec.SchemaProps{
+							Description: "PreBackup is called immediately before a backup session is initiated.",
+							Ref:         ref("k8s.io/api/core/v1.Handler"),
+						},
+					},
+					"postBackup": {
+						SchemaProps: spec.SchemaProps{
+							Description: "PostBackup is called immediately after a backup session is complete.",
+							Ref:         ref("k8s.io/api/core/v1.Handler"),
+						},
+					},
+				},
+			},
+		},
+		Dependencies: []string{
+			"k8s.io/api/core/v1.Handler"},
 	}
 }
 
